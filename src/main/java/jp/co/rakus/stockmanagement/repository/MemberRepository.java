@@ -1,6 +1,6 @@
 package jp.co.rakus.stockmanagement.repository;
 
-import jp.co.rakus.stockmanagement.domain.Member;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,13 +11,20 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import jp.co.rakus.stockmanagement.domain.Member;
+
 /**
  * membersテーブル操作用のリポジトリクラス.
+ * 
  * @author igamasayuki
+ */
+/**
+ * @author akihiko.yahiro
+ *
  */
 @Repository
 public class MemberRepository {
-	
+
 	/**
 	 * ResultSetオブジェクトからMemberオブジェクトに変換するためのクラス実装&インスタンス化
 	 */
@@ -28,49 +35,71 @@ public class MemberRepository {
 		String password = rs.getString("password");
 		return new Member(id, name, mailAddress, password);
 	};
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	
+
 	/**
 	 * メールアドレスとパスワードからメンバーを取得.
-	 * @param mailAddress メールアドレス
-	 * @param password パスワード
+	 * 
+	 * @param mailAddress
+	 *            メールアドレス
+	 * @param password
+	 *            パスワード
 	 * @return メンバー情報.メンバーが存在しない場合はnull.
 	 */
 	public Member findByMailAddressAndPassword(String mailAddress, String password) {
 		SqlParameterSource param = new MapSqlParameterSource();
 		Member member = null;
-		try{
-			member = jdbcTemplate.queryForObject(
-					"SELECT id,name,mail_address,password FROM members WHERE mail_address= '"
-							+ mailAddress + "' and password='" + password + "'",
-					param, 
-					MEMBER_ROW_MAPPER);
+		try {
+			member = jdbcTemplate
+					.queryForObject("SELECT id,name,mail_address,password FROM members WHERE mail_address= '"
+							+ mailAddress + "' and password='" + password + "'", param, MEMBER_ROW_MAPPER);
 			return member;
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
 	/**
-	 * メンバー情報を保存　または　更新する.
-	 * @param member　保存または更新するメンバー情報
-	 * @return　保存または更新されたメンバー情報
+	 * メンバー情報を保存 または 更新する.
+	 * 
+	 * @param member
+	 *            保存または更新するメンバー情報
+	 * @return 保存または更新されたメンバー情報
 	 */
 	public Member save(Member member) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(member);
 		if (member.getId() == null) {
-			jdbcTemplate.update(
-					"INSERT INTO members(name,mail_address,password) values(:name,:mailAddress,:password)", 
+			jdbcTemplate.update("INSERT INTO members(name,mail_address,password) values(:name,:mailAddress,:password)",
 					param);
 		} else {
 			jdbcTemplate.update(
-					"UPDATE members SET name=:name,mail_address=:mailAddress,password=:password WHERE id=:id", 
-					param);
+					"UPDATE members SET name=:name,mail_address=:mailAddress,password=:password WHERE id=:id", param);
 		}
 		return member;
 	}
 
+	/**
+	 * 全件検索
+	 * @return
+	 */
+	public List<Member> findAll() {
+		String sql = "SELECT id, name, mail_address, password FROM members ORDER BY id;";
+		List<Member> memberList = jdbcTemplate.query(sql, MEMBER_ROW_MAPPER);
+		return memberList;
+	}
+
+	/**
+	 * アドレス１件検索
+	 * @param mailAddress
+	 * @return
+	 */
+	public Member FindByMail(String mailAddress) {
+		String sql = "SELECT id, name, mail_address, password FROM members WHERE mail_address = :mail_address ORDER BY id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mail_address", mailAddress);
+		Member member = jdbcTemplate.queryForObject(sql, param, MEMBER_ROW_MAPPER);
+		return member;
+	}
 }

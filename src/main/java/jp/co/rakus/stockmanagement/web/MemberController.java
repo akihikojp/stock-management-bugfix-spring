@@ -1,5 +1,7 @@
 package jp.co.rakus.stockmanagement.web;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,19 +61,24 @@ public class MemberController {
 	 * @return ログイン画面
 	 */
 	@RequestMapping(value = "create")
-	public String create(@Validated MemberForm form, 
-							BindingResult result, 
-							Model model) {
-		
+	public String create(@Validated MemberForm form, BindingResult result, Model model) {
+
 		if (result.hasErrors()) {
 			return "/member/form";
 		}
-
-		Member member = new Member();
-		BeanUtils.copyProperties(form, member);
-		memberService.save(member);
-		return "redirect:/";
+		String inputMailAddress = form.getMailAddress();
+		Member member = memberService.FindByMail(inputMailAddress);
 		
+			//8/15日ここから！
+			
+		}
+		
+		
+		Member newMember = new Member();
+		BeanUtils.copyProperties(form, newMember);
+		memberService.save(newMember);
+		return "redirect:/";
+
 	}
 
 }
