@@ -5,13 +5,14 @@
 	<h3>メンバー登録画面</h3>
 	<div class="span8">
 		<div class="row">
-		<form:form modelAttribute="memberForm" action="${pageContext.request.contextPath}/index">
+		<form:form modelAttribute="memberForm" action="${pageContext.request.contextPath}/member/create">
 			<table class="table table-striped">
 			  <tr>
 			    <th>
 			     	 氏名
 			    </th>
 			    <td>
+			    	<form:errors path="name" cssStyle="color:red" element="div"/>
 			    	<form:input path="name"  placeholder="Name"/>
 			    </td>
 			  </tr>
@@ -20,6 +21,7 @@
 			      	メールアドレス
 			    </th>
 			    <td>
+			    <form:errors path="mailAddress" cssStyle="color:red" element="div"/>
 			    	<form:input path="mailAddress" placeholder="Email"/>
 			    </td>
 			  </tr>
@@ -28,6 +30,7 @@
 			     	 パスワード
 			    </th>
 			    <td>
+			    <form:errors path="password" cssStyle="color:red" element="div"/>
 			    	<form:password path="password" placeholder="Password"/>
 			    </td>
 			  </tr>
