@@ -18,7 +18,7 @@ import jp.co.rakus.stockmanagement.service.MemberService;
  *
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/login")
 public class LoginController {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class LoginController {
 	 * ログイン画面を表示します.
 	 * @return ログイン画面
 	 */
-	@RequestMapping
+	@RequestMapping("/index")
 	public String index() {
 		return "loginForm";
 	}

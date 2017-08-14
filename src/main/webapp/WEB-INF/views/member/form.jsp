@@ -5,7 +5,7 @@
 	<h3>メンバー登録画面</h3>
 	<div class="span8">
 		<div class="row">
-		<form:form modelAttribute="memberForm" action="${pageContext.request.contextPath}/member/create">
+		<form:form modelAttribute="memberForm" action="${pageContext.request.contextPath}/index">
 			<table class="table table-striped">
 			  <tr>
 			    <th>
