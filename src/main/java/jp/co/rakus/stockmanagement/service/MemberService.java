@@ -1,7 +1,5 @@
 package jp.co.rakus.stockmanagement.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,15 +43,8 @@ public class MemberService {
 	// }
 
 	/**
-	 * 全件検索
-	 * @return
-	 */
-	public List<Member> findAll() {
-		return memberRepository.findAll();
-	}
-
-	/**
 	 * アドレス検索
+	 * 
 	 * @param mailAddress
 	 * @return
 	 */

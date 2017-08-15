@@ -1,7 +1,5 @@
 package jp.co.rakus.stockmanagement.web;
 
-import java.util.List;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,23 +60,27 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "create")
 	public String create(@Validated MemberForm form, BindingResult result, Model model) {
-
+		/** Formタグ@NotBlankでエラー表示 */
 		if (result.hasErrors()) {
 			return "/member/form";
 		}
+		/** 入力されたアドレスが既存かどうか照合する */
 		String inputMailAddress = form.getMailAddress();
 		Member member = memberService.FindByMail(inputMailAddress);
+		String address = member.getMailAddress();
 		
-			//8/15日ここから！
-			
+		if (address != null) {
+			model.addAttribute("addressError", "そのアドレスはすでに使われています。");
+			return "/member/form";
+		} else {
+			/** 新規アドレスだった場合、saveメソッド発動後に、ログイン画面へ変遷 */
+			Member newMember = new Member();
+			BeanUtils.copyProperties(form, newMember);
+			memberService.save(newMember);
+			return "redirect:/";
 		}
-		
-		
-		Member newMember = new Member();
-		BeanUtils.copyProperties(form, newMember);
-		memberService.save(newMember);
-		return "redirect:/";
-
 	}
-
 }
+
+// queryForObjectの場合、取得結果が0件だと下記のような例外が発生する。
+// Incorrect result size: expected 1, actual 0

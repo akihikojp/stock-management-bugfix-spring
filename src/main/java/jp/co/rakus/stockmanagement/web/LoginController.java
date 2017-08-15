@@ -62,6 +62,7 @@ public class LoginController {
 			ObjectError error = new ObjectError("loginerror", "メールアドレスまたはパスワードが違います。");
             result.addError(error);
 			return index();
+			
 		}
 		model.addAttribute("member", member);
 		return "redirect:/book/list";
