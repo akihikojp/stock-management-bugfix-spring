@@ -47,19 +47,17 @@ public class MemberRepository {
 	 * @return メンバー情報.メンバーが存在しない場合はnull.
 	 */
 	public Member findByMailAddressAndPassword(String mailAddress, String password) {
-		SqlParameterSource param = new MapSqlParameterSource();
-		Member member = null;
-		try {
-			member = jdbcTemplate
-					.queryForObject("SELECT id,name,mail_address,password FROM members WHERE mail_address= '"
-							+ mailAddress + "' and password='" + password + "'", param, MEMBER_ROW_MAPPER);
+		try{
+		String sql = "Select id, name, mail_address, password FROM members WHERE mail_address = :mailAddress and password = :password";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password", password);
+		Member member = jdbcTemplate.queryForObject(sql, param, MEMBER_ROW_MAPPER);
 			return member;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-
+	
 	/**
 	 * メンバー情報を保存 または 更新する.
 	 * 
@@ -73,8 +71,7 @@ public class MemberRepository {
 			jdbcTemplate.update("INSERT INTO members(name,mail_address,password) values(:name,:mailAddress,:password)",
 					param);
 		} else {
-			jdbcTemplate.update(
-					"UPDATE members SET name=:name,mail_address=:mailAddress,password=:password WHERE id=:id", param);
+			jdbcTemplate.update("UPDATE members SET name=:name,mail_address=:mailAddress,password=:password WHERE id=:id", param);
 		}
 		return member;
 	}

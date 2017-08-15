@@ -39,6 +39,10 @@ public class BookRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
+	/**
+	 * 書籍リスト/全件検索
+	 * @return
+	 */
 	public List<Book> findAll() {
 		List<Book> books = jdbcTemplate.query(
 				"SELECT id,name,author,publisher,price,isbncode,saledate,explanation,image,stock FROM books ORDER BY saledate DESC", 
@@ -46,6 +50,11 @@ public class BookRepository {
 		return books;
 	}
 	
+	/**
+	 * 1件検索メソッド
+	 * @param id
+	 * @return
+	 */
 	public Book findOne(Integer id) {
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("id",id);
@@ -56,6 +65,11 @@ public class BookRepository {
 		return book;
 	}
 	
+	/**
+	 * 書籍追加メソッド
+	 * @param book
+	 * @return
+	 */
 	public Book update(Book book) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(book);
 		if (book.getId() == null) {
