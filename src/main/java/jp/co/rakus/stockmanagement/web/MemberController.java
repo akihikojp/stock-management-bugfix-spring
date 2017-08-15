@@ -67,18 +67,16 @@ public class MemberController {
 		/** 入力されたアドレスが既存かどうか照合する */
 		String inputMailAddress = form.getMailAddress();
 		Member member = memberService.findByMail(inputMailAddress);
-		String address = member.getMailAddress();
-		
-		if (address != null) {
+
+		if (member != null) {
 			model.addAttribute("addressError", "そのアドレスはすでに使われています。");
 			return "/member/form";
-		} else {
-			/** 新規アドレスだった場合、saveメソッド発動後に、ログイン画面へ変遷 */
+		}
+			/** 新規アドレスだった場合、以下のsaveメソッド発動後に、ログイン画面へ変遷 */
 			Member newMember = new Member();
 			BeanUtils.copyProperties(form, newMember);
 			memberService.save(newMember);
 			return "redirect:/";
-		}
 	}
 }
 
