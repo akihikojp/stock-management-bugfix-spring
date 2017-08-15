@@ -2,9 +2,6 @@ package jp.co.rakus.stockmanagement.web;
 
 import java.util.List;
 
-import jp.co.rakus.stockmanagement.domain.Book;
-import jp.co.rakus.stockmanagement.service.BookService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +11,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import jp.co.rakus.stockmanagement.domain.Book;
+import jp.co.rakus.stockmanagement.service.BookService;
 
 /**
  * 書籍関連処理を行うコントローラー.
@@ -27,6 +27,7 @@ public class BookController {
 	
 	@Autowired
 	private BookService bookService;
+	
 	
 	/**
 	 * フォームを初期化します.
@@ -46,6 +47,9 @@ public class BookController {
 	public String list(Model model) {
 		List<Book> bookList = bookService.findAll();
 		model.addAttribute("bookList", bookList);
+		
+
+		
 		return "book/list";
 	}
 	
