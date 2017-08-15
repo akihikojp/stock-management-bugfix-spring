@@ -3,7 +3,8 @@
 <body>
 <div class="container">
 	<c:out value="${member.name}"/>さん　こんにちは！<br>
-	<a href="${pageContext.request.contextPath}/logout/sessionInvalidate">ログアウト</a>
+	<a href="${pageContext.request.contextPath}/logout/sessionInvalidate">ログアウト</a><br>
+	<a href="${pageContext.request.contextPath}/book/list">書籍一覧表へ戻る</a>
 	<h3>書籍在庫数変更画面</h3>
 	<div class="span8">
 		<div class="row">
