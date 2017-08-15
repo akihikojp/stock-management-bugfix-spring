@@ -64,20 +64,29 @@ public class MemberController {
 		if (result.hasErrors()) {
 			return "/member/form";
 		}
-		/** 入力されたアドレスが既存かどうか照合する */
-		String inputMailAddress = form.getMailAddress();
-		Member member = memberService.findByMail(inputMailAddress);
 
-		if (member != null) {
-			model.addAttribute("addressError", "そのアドレスはすでに使われています。");
+		String password = form.getPassword();
+		String passwordCheck = form.getPasswordCheck();
+		if(!(password.equals(passwordCheck))){
+			model.addAttribute("passwordError", "正しいパスワードを入力してください。");
 			return "/member/form";
 		}
+
+			/** 入力されたアドレスが既存かどうか照合する */
+			String inputMailAddress = form.getMailAddress();
+			Member member = memberService.findByMail(inputMailAddress);
+
+			if (member != null) {
+				model.addAttribute("addressError", "そのアドレスはすでに使われています。");
+				return "/member/form";
+			}
+
 			/** 新規アドレスだった場合、以下のsaveメソッド発動後に、ログイン画面へ変遷 */
 			Member newMember = new Member();
 			BeanUtils.copyProperties(form, newMember);
 			memberService.save(newMember);
 			return "redirect:/";
-	}
+		}
 }
 
 // queryForObjectの場合、取得結果が0件だと下記のような例外が発生する。

@@ -22,9 +22,15 @@
 						</tr>
 						<tr>
 							<th>パスワード</th>
-							<td><form:errors path="password" cssStyle="color:red"
-									element="div" /> <form:password path="password"
-									placeholder="Password" /></td>
+							<td><c:out value="${passwordError}" /><br> <form:errors
+									path="password" cssStyle="color:red" element="div" /> <form:password
+									path="password" placeholder="Password" /></td>
+						</tr>
+						<tr>
+							<th>パスワード確認用</th>
+							<td><c:out value="${passwordError}" /><br> <form:errors
+									path="passwordCheck" cssStyle="color:red" element="div" /> <form:password
+									path="passwordCheck" placeholder="passwordCheck" /></td>
 						</tr>
 						<tr>
 							<td></td>

@@ -27,7 +27,7 @@
 			    </td>
 			  </tr>
 			  <tr>
-			  	<td></td>
+			   <th>
 			    <td>
 					<input class="btn" type="submit" value="ログイン">
 			    </td>
