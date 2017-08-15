@@ -48,7 +48,7 @@ public class MemberService {
 	 * @param mailAddress
 	 * @return
 	 */
-	public Member FindByMail(String mailAddress) {
-		return memberRepository.FindByMail(mailAddress);
+	public Member findByMail(String mailAddress) {
+		return memberRepository.findByMail(mailAddress);
 	}
 }

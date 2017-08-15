@@ -85,7 +85,7 @@ public class MemberRepository {
 	 * @param mailAddress
 	 * @return
 	 */
-	public Member FindByMail(String mailAddress) {
+	public Member findByMail(String mailAddress) {
 		try {
 			String sql = "SELECT id, name, mail_address, password FROM members WHERE mail_address = :mail_address ORDER BY id;";
 			SqlParameterSource param = new MapSqlParameterSource().addValue("mail_address", mailAddress);

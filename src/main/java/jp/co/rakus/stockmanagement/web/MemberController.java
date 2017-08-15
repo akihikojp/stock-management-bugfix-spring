@@ -66,7 +66,7 @@ public class MemberController {
 		}
 		/** 入力されたアドレスが既存かどうか照合する */
 		String inputMailAddress = form.getMailAddress();
-		Member member = memberService.FindByMail(inputMailAddress);
+		Member member = memberService.findByMail(inputMailAddress);
 		String address = member.getMailAddress();
 		
 		if (address != null) {
