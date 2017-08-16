@@ -66,7 +66,7 @@ public class BookRepository {
 	}
 	
 	/**
-	 * 書籍追加メソッド
+	 * 書籍在庫追加メソッド
 	 * @param book
 	 * @return
 	 */
@@ -80,4 +80,6 @@ public class BookRepository {
 				param);
 		return book;
 	}
+	
+	
 }
